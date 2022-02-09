@@ -32,7 +32,7 @@ namespace CognizantAsessment.API
 
             services.AddDbContext<VehicleStoreContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("VehicleStoreDb"));
+                options.UseSqlServer(Configuration.GetConnectionString("VehicleStore"));
             });
 
             services.AddSwaggerGen(c =>
