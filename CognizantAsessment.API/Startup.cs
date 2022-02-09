@@ -1,4 +1,8 @@
+using CognizantAssessment.Core.IServiceManager;
+using CognizantAssessment.Core.ServiceManager;
 using CognizantAssessment.Data;
+using CognizantAssessment.Data.Entity;
+using CognizantAssessment.Data.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +43,20 @@ namespace CognizantAsessment.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CognizantAsessment.API", Version = "v1" });
             });
+
+            services.AddScoped<IRepository<Cars>, EntityRepository<Cars>>();
+            services.AddScoped<IRepository<Warehouse>, EntityRepository<Warehouse>>();
+
+            services.AddTransient<IVehicleService, VehicleService>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +70,7 @@ namespace CognizantAsessment.API
             }
 
             app.UseRouting();
+            app.UseCors("AllowAll");
 
             app.UseAuthorization();
 
