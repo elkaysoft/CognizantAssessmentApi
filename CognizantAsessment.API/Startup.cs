@@ -1,6 +1,8 @@
+using CognizantAssessment.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,6 +29,12 @@ namespace CognizantAsessment.API
         {
 
             services.AddControllers();
+
+            services.AddDbContext<VehicleStoreContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("VehicleStoreDb"));
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CognizantAsessment.API", Version = "v1" });
